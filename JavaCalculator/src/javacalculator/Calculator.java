@@ -12,7 +12,7 @@ import java.awt.event.*;
  */
 
 //interface -whatever that means
-public class JavaCalculator implements ActionListener{
+public class Calculator implements ActionListener{
     
     // all of this is from the jframe library
     JFrame frame;
@@ -30,12 +30,26 @@ public class JavaCalculator implements ActionListener{
     char operator;
     
     //class constructor
-    JavaCalculator() {
+    Calculator() {
+        // re;ates to the frame/ window
+        frame = new JFrame("Calculator");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(420, 550);
+        frame.setLayout(null);
+        
+        textfield = new JTextField();
+        textfield.setBounds(50,25,300,50);
+        textfield.setFont(myFont);
+        
+        
+        frame.add(textfield);
+        //makes the whole window visible
+        frame.setVisible(true);
         
     }
     public static void main(String[] args) {
         //new object from the constructor
-        JavaCalculator calc = new JavaCalculator();
+        Calculator calc = new Calculator();
         
         
     }
