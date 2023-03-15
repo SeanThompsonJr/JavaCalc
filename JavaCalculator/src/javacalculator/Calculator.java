@@ -18,9 +18,9 @@ public class Calculator implements ActionListener{
     JFrame frame;
     JTextField textfield;
     JButton[] numberButtons = new JButton[10];
-    JButton[] functionButtons = new JButton[8];
+    JButton[] functionButtons = new JButton[9];
     JButton addButton, subButton, mulButton, divButton;
-    JButton decButton, equButton, delButton, clrButton;
+    JButton decButton, equButton, delButton, clrButton, negButton;
     JPanel panel;
     
     //font object
@@ -42,7 +42,7 @@ public class Calculator implements ActionListener{
         textfield.setFont(myFont);
         textfield.setEditable(false); // makes the textfield not editable
         
-        //creates buttons for operations
+        //creates buttons for operations aka creates a symbol
         addButton = new JButton("+");
         subButton = new JButton("-");
         mulButton = new JButton("*");
@@ -51,6 +51,7 @@ public class Calculator implements ActionListener{
         equButton = new JButton("=");
         delButton = new JButton("Delete");
         clrButton = new JButton("Clear");
+        negButton = new JButton("(-)");
         
         //puts the operation buttons in an array
         functionButtons[0] = addButton;
@@ -61,9 +62,10 @@ public class Calculator implements ActionListener{
         functionButtons[5] = equButton;
         functionButtons[6] = delButton;
         functionButtons[7] = clrButton;
+        functionButtons[8] = negButton;
         
         //loops through all operation buttons
-        for(int i = 0; i < 8 ; i++){
+        for(int i = 0; i < 9 ; i++){
             functionButtons[i].addActionListener(this); //adds an action listener to each button
             functionButtons[i].setFont(myFont); //sets the buttons fonts
             functionButtons[i].setFocusable(false); //removes highlight when hover
@@ -77,8 +79,9 @@ public class Calculator implements ActionListener{
         }
         
         //drawing them to a positition and giving them a size
-        delButton.setBounds(50,430,145,50);
-        clrButton.setBounds(205,430,145,50);
+        negButton.setBounds(50,430,100,50);
+        delButton.setBounds(150,430,100,50);
+        clrButton.setBounds(250,430,100,50);
         
         //edits panel for number buttons
         panel = new JPanel(); // crates new jpanel object
@@ -86,6 +89,8 @@ public class Calculator implements ActionListener{
         panel.setLayout(new GridLayout(4,4,10,10));
         //panel.setBackground(Color.gray); //sets background of panel
         
+        
+        //adds all the buttons to the panel
         panel.add(numberButtons[1]);
         panel.add(numberButtons[2]);
         panel.add(numberButtons[3]);
@@ -107,6 +112,7 @@ public class Calculator implements ActionListener{
         // draws panel
         frame.add(panel);
         // draws them to the actual window
+        frame.add(negButton);
         frame.add(delButton);
         frame.add(clrButton);
         //adds the textfield to the window
@@ -124,7 +130,82 @@ public class Calculator implements ActionListener{
     //comes with ActionListener
     @Override
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        for(int i =0; i < 10; i++){
+            if(e.getSource() == numberButtons[i]){
+                //make each number button show up on the screen
+                textfield.setText(textfield.getText().concat(String.valueOf(i)));
+            }
+        }
+        //adds decimal functionality
+        //adds functionality to decimal button
+        if(e.getSource() == decButton){
+            textfield.setText(textfield.getText().concat("."));
+        }
+        //adds functionality to addition button
+        if(e.getSource() == addButton){
+            num1 = Double.parseDouble(textfield.getText());
+            operator = '+';
+            textfield.setText("");
+        }
+        //adds functionality to subtraction button
+        if(e.getSource() == subButton){
+            num1 = Double.parseDouble(textfield.getText());
+            operator = '-';
+            textfield.setText("");
+        }
+        //adds functionality to multiplcation button
+        if(e.getSource() == mulButton){
+            num1 = Double.parseDouble(textfield.getText());
+            operator = '*';
+            textfield.setText("");
+        }
+        //adds functionality to division button
+        if(e.getSource() == divButton){
+            num1 = Double.parseDouble(textfield.getText());
+            operator = '/';
+            textfield.setText("");
+        }
+        //adds functionality to equal button
+        if(e.getSource() == equButton){
+            num2 = Double.parseDouble(textfield.getText());
+            // doing the operation when selected
+            switch(operator){
+                case'+':
+                    result=num1+num2;
+                    break;
+                case'-':
+                    result=num1-num2;
+                    break;
+                case'*':
+                    result=num1*num2;
+                    break;
+                case'/':
+                    result=num1/num2;
+                    break;    
+            }
+            //sets the result after operation
+            textfield.setText(String.valueOf(result));
+            //just in case you want to continue the arithmetic
+            num1=result;
+        }
+        //adds functionality to clear button
+        if(e.getSource() == clrButton){
+            textfield.setText("");
+        }
+        //adds functionality to delete button
+        if(e.getSource() == delButton){
+            String string = textfield.getText();
+            textfield.setText("");
+            for(int i = 0; i < string.length()-1; i++){
+                textfield.setText(textfield.getText() + string.charAt(i));
+            }
+        }
+        if(e.getSource() == negButton){
+            double temp = Double.parseDouble(textfield.getText());
+            temp*=-1;//flips the sign
+            textfield.setText(String.valueOf(temp));
     }
-    
+        
+    }
 }
