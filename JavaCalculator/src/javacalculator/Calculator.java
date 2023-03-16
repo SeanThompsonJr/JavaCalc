@@ -18,11 +18,11 @@ public class Calculator implements ActionListener{
     JFrame frame;
     JTextField textfield;
     JButton[] numberButtons = new JButton[10];
-    JButton[] functionButtons = new JButton[9];
+    JButton[] functionButtons = new JButton[10];
     JButton addButton, subButton, mulButton, divButton;
-    JButton decButton, equButton, delButton, clrButton, negButton;
+    JButton decButton, equButton, delButton, clrButton, negButton, hisButton;
     JPanel panel;
-    
+    JPanel historyPanel;
     //font object
     Font myFont = new Font("Ink Free", Font.BOLD,30);
     //variables
@@ -52,7 +52,7 @@ public class Calculator implements ActionListener{
         delButton = new JButton("Delete");
         clrButton = new JButton("Clear");
         negButton = new JButton("(-)");
-        
+        hisButton = new JButton("....");
         //puts the operation buttons in an array
         functionButtons[0] = addButton;
         functionButtons[1] = subButton;
@@ -63,9 +63,9 @@ public class Calculator implements ActionListener{
         functionButtons[6] = delButton;
         functionButtons[7] = clrButton;
         functionButtons[8] = negButton;
-        
+        functionButtons[9] = hisButton;
         //loops through all operation buttons
-        for(int i = 0; i < 9 ; i++){
+        for(int i = 0; i < 10 ; i++){
             functionButtons[i].addActionListener(this); //adds an action listener to each button
             functionButtons[i].setFont(myFont); //sets the buttons fonts
             functionButtons[i].setFocusable(false); //removes highlight when hover
@@ -79,9 +79,14 @@ public class Calculator implements ActionListener{
         }
         
         //drawing them to a positition and giving them a size
+        hisButton.setBounds(283, 75, 66, 25);
         negButton.setBounds(50,430,100,50);
         delButton.setBounds(150,430,100,50);
         clrButton.setBounds(250,430,100,50);
+        
+        
+        
+        
         
         //edits panel for number buttons
         panel = new JPanel(); // crates new jpanel object
@@ -90,7 +95,14 @@ public class Calculator implements ActionListener{
         //panel.setBackground(Color.gray); //sets background of panel
         
         
+        historyPanel = new JPanel();
+        historyPanel.setBackground(Color.red);
+        historyPanel.setBounds(0,0,420, 550);
+        historyPanel.setVisible(false);      
+                
+                
         //adds all the buttons to the panel
+        historyPanel.add(addButton);
         panel.add(numberButtons[1]);
         panel.add(numberButtons[2]);
         panel.add(numberButtons[3]);
@@ -109,9 +121,12 @@ public class Calculator implements ActionListener{
         panel.add(divButton);
 
 
-        // draws panel
+        // draws panels
+        frame.add(historyPanel);
         frame.add(panel);
+        
         // draws them to the actual window
+        frame.add(hisButton);
         frame.add(negButton);
         frame.add(delButton);
         frame.add(clrButton);
@@ -207,5 +222,12 @@ public class Calculator implements ActionListener{
             textfield.setText(String.valueOf(temp));
     }
         
+        if(e.getSource() == hisButton){
+              panel.setVisible(false);
+              clrButton.setVisible(false);
+              delButton.setVisible(false);
+              negButton.setVisible(false);
+              historyPanel.setVisible(true);
+        }                                     
     }
 }
